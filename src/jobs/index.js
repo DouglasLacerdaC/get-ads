@@ -4,13 +4,15 @@ import { delay } from "../shared/utils/delay.js";
 import { getJSON, setJSON } from "../services/json.js";
 
 import cron from "node-cron"
+import { webmotorsService } from "../services/webmotors.js";
 
-async function updateNewAds() {
+export async function updateNewAds() {
   const currentDataJson = await getJSON()
 
   const olxAds = await olxService.getAds()
+  const webmotorsAds = await webmotorsService.getAds()
 
-  const newData = olxAds.filter(ad => {
+  const newData = [...olxAds, ...webmotorsAds].filter(ad => {
     const isValid = currentDataJson.find(data => data.link == ad.link)
 
     if (!isValid) return ad
@@ -32,7 +34,7 @@ async function updateNewAds() {
 
 export const registerJobs = () => {
 
-  cron.schedule("0 */5 * * * *", () => { // Cada 1min
+  cron.schedule("0 */10 * * * *", () => { // Cada 10min
     updateNewAds()
   })
 }

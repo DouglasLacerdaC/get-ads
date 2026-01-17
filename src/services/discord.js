@@ -10,8 +10,8 @@ const sendAD = async (details) => {
   }
 
   await axios.post(WEBHOOK_URL, {
-      "username": "OLX Carros",
-      "avatar_url": "https://i.imgur.com/6RLbJ5f.png",
+      // "username": "OLX Carros",
+      // "avatar_url": "https://i.imgur.com/6RLbJ5f.png",
       "embeds": [
         {
           "title": `[${details.site}] ${details.title}`,
